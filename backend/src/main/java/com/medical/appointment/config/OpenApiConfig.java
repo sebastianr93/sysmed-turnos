@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
-import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
@@ -16,9 +15,8 @@ import org.springframework.context.annotation.Configuration;
         title = "Medical Appointment System API",
         version = "1.0.0",
         description = "API REST para gestión de turnos médicos",
-        contact = @Contact(name = "Medical System", email = "contact@medicalsystem.com")
+        contact = @Contact(name = "Sebastian R", email = "contact@medicalsystem.com")
     ),
-    servers = @Server(url = "http://localhost:8080", description = "Local Dev"),
     security = @SecurityRequirement(name = "bearerAuth")
 )
 @SecurityScheme(
