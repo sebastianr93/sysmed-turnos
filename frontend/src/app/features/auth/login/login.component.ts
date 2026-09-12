@@ -22,11 +22,18 @@ import { HttpErrorResponse } from '@angular/common/http';
   ],
   template: `
     <div class="auth-container">
+
+      <div class="auth-bg">
+        <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1920&q=80&auto=format&fit=crop"
+             alt="Clínica" class="bg-image" />
+        <div class="bg-overlay"></div>
+      </div>
+
       <mat-card class="auth-card">
         <mat-card-header>
           <div class="auth-logo">
             <mat-icon>local_hospital</mat-icon>
-            <h1>MedSystem</h1>
+            <h1>SysMed</h1>
           </div>
           <mat-card-title>Iniciar Sesión</mat-card-title>
           <mat-card-subtitle>Ingrese sus credenciales para continuar</mat-card-subtitle>
@@ -68,7 +75,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
             <button mat-raised-button color="primary" class="full-width submit-btn"
                     type="submit" [disabled]="loading() || form.invalid">
-		@if (loading()) {
+              @if (loading()) {
                 <mat-spinner diameter="20" />
               } @else {
                 <ng-container>
@@ -88,31 +95,46 @@ import { HttpErrorResponse } from '@angular/common/http';
         </mat-card-actions>
       </mat-card>
 
-      <div class="demo-credentials">
-        <strong>Credenciales de prueba:</strong>
-        <span>Admin: admin&#64;medical.com / Admin1234!</span>
-        <span>Médico: carlos.mendez&#64;medical.com / Admin1234!</span>
-        <span>Paciente: juan.perez&#64;email.com / Admin1234!</span>
-      </div>
     </div>
   `,
   styles: [`
     .auth-container {
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, #1a237e 0%, #283593 50%, #3949ab 100%);
       padding: 24px;
-      gap: 16px;
+      position: relative;
+    }
+
+    .auth-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .bg-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: blur(6px) brightness(0.6);
+      transform: scale(1.05);
+    }
+
+    .bg-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(26,35,126,0.75) 0%, rgba(57,73,171,0.65) 100%);
     }
 
     .auth-card {
+      position: relative;
+      z-index: 1;
       width: 100%;
       max-width: 440px;
       border-radius: 16px !important;
-      box-shadow: 0 24px 48px rgba(0,0,0,0.3) !important;
+      box-shadow: 0 24px 48px rgba(0,0,0,0.4) !important;
+      background: rgba(255,255,255,0.97) !important;
     }
 
     .auth-logo {
@@ -157,19 +179,6 @@ import { HttpErrorResponse } from '@angular/common/http';
       width: 100%;
       margin: 0;
       color: #666;
-    }
-
-    .demo-credentials {
-      background: rgba(255,255,255,0.15);
-      border-radius: 12px;
-      padding: 12px 16px;
-      color: white;
-      font-size: 0.82rem;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      max-width: 440px;
-      width: 100%;
     }
   `]
 })

@@ -36,7 +36,7 @@ interface NavItem {
         <!-- Logo -->
         <div class="sidenav-header">
           <mat-icon class="logo-icon">local_hospital</mat-icon>
-          <span class="logo-text">MedSystem</span>
+          <span class="logo-text">SysMed</span>
         </div>
 
         <mat-divider />
