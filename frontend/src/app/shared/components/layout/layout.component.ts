@@ -173,8 +173,21 @@ interface NavItem {
 
     .menu-user-info {
       padding: 12px 16px;
+      background: rgba(255,255,255,0.98);
       .menu-name { font-weight: 600; margin: 0 0 4px; }
       .menu-email { font-size: 0.8rem; color: #666; margin: 0; }
+    }
+
+    ::ng-deep .mat-mdc-menu-panel {
+      background: rgba(255,255,255,0.97) !important;
+      backdrop-filter: blur(8px) !important;
+      border-radius: 12px !important;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15) !important;
+    }
+
+    ::ng-deep .mat-mdc-tooltip {
+      background: rgba(26,35,126,0.92) !important;
+      border-radius: 6px !important;
     }
   `]
 })
