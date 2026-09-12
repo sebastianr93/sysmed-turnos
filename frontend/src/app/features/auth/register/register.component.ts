@@ -186,6 +186,9 @@ import { HttpErrorResponse } from '@angular/common/http';
       z-index: 1;
       width: 100%;
       max-width: 520px;
+    }
+
+    ::ng-deep .auth-card .mat-mdc-card {
       border-radius: 16px !important;
       box-shadow: 0 24px 48px rgba(0,0,0,0.4) !important;
       background: rgba(255,255,255,0.97) !important;
