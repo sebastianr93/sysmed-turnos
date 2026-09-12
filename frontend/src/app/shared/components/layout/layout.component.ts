@@ -179,15 +179,25 @@ interface NavItem {
     }
 
     ::ng-deep .mat-mdc-menu-panel {
-      background: rgba(255,255,255,0.97) !important;
-      backdrop-filter: blur(8px) !important;
+      background: #ffffff !important;
       border-radius: 12px !important;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.15) !important;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18) !important;
+    }
+
+    ::ng-deep .mat-mdc-menu-item {
+      color: #1a1a2e !important;
     }
 
     ::ng-deep .mat-mdc-tooltip {
-      background: rgba(26,35,126,0.92) !important;
+      background: #1a237e !important;
+      color: #ffffff !important;
       border-radius: 6px !important;
+      font-size: 0.8rem !important;
+    }
+
+    ::ng-deep .mdc-tooltip__surface {
+      background: #1a237e !important;
+      color: #ffffff !important;
     }
   `]
 })
