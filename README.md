@@ -279,5 +279,5 @@ MIT License — libre para uso personal y comercial.
 ---
 
 <div align="center">
-Desarrollado como proyecto de portfolio — nivel Semi Senior
+Desarrollado por Sebastián Rodríguez - 2026
 </div>
