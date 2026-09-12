@@ -16,6 +16,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { TurnoService } from '../../../core/services/api.services';
 import { Turno, EstadoTurno } from '../../../core/models';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-admin-turnos',
