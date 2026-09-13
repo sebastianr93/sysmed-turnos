@@ -4,6 +4,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
+import { MatDatepickerIntl } from '@angular/material/datepicker';
 import { routes } from './app.routes';
 import { jwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { registerLocaleData } from '@angular/common';
@@ -27,6 +28,21 @@ function getPaginatorIntlEs(): MatPaginatorIntl {
   return intl;
 }
 
+function getDatepickerIntlEs(): MatDatepickerIntl {
+  const intl = new MatDatepickerIntl();
+  intl.calendarLabel         = 'Calendario';
+  intl.openCalendarLabel     = 'Abrir calendario';
+  intl.prevMonthLabel        = '';
+  intl.nextMonthLabel        = '';
+  intl.prevYearLabel         = '';
+  intl.nextYearLabel         = '';
+  intl.prevMultiYearLabel    = '';
+  intl.nextMultiYearLabel    = '';
+  intl.switchToMonthViewLabel = 'Cambiar a vista mensual';
+  intl.switchToMultiYearViewLabel = 'Seleccionar mes y año';
+  return intl;
+}
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -36,5 +52,6 @@ export const appConfig: ApplicationConfig = {
     provideNativeDateAdapter(),
     { provide: LOCALE_ID, useValue: 'es-AR' },
     { provide: MatPaginatorIntl, useFactory: getPaginatorIntlEs },
+    { provide: MatDatepickerIntl, useFactory: getDatepickerIntlEs },
   ]
 };
