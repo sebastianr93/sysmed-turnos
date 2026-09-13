@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -17,6 +17,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-register',
   standalone: true,
+  encapsulation: ViewEncapsulation.None,
   imports: [
     CommonModule, ReactiveFormsModule, RouterLink,
     MatCardModule, MatFormFieldModule, MatInputModule,
@@ -46,40 +47,30 @@ import { HttpErrorResponse } from '@angular/common/http';
           <mat-stepper linear #stepper>
 
             <mat-step [stepControl]="personalForm" label="Datos Personales">
-              <form [formGroup]="personalForm" class="step-form">
-
+              <form [formGroup]="personalForm">
                 <div class="row-2">
-                  <div class="native-field">
-                    <label class="native-label">Nombre *</label>
-                    <input class="native-input" formControlName="nombre" placeholder="Ingrese su nombre">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput formControlName="nombre">
                     @if (personalForm.get('nombre')?.invalid && personalForm.get('nombre')?.touched) {
-                      <span class="native-error">Nombre requerido</span>
+                      <mat-error>Nombre requerido</mat-error>
                     }
-                  </div>
-                  <div class="native-field">
-                    <label class="native-label">Apellido *</label>
-                    <input class="native-input" formControlName="apellido" placeholder="Ingrese su apellido">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Apellido</mat-label>
+                    <input matInput formControlName="apellido">
                     @if (personalForm.get('apellido')?.invalid && personalForm.get('apellido')?.touched) {
-                      <span class="native-error">Apellido requerido</span>
+                      <mat-error>Apellido requerido</mat-error>
                     }
-                  </div>
+                  </mat-form-field>
                 </div>
 
-                <div class="native-field">
-                  <label class="native-label">Fecha de Nacimiento</label>
-                  <mat-form-field appearance="outline" class="full-width date-field">
-                    <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento"
-                           [max]="maxDate" [min]="minDate">
-                    <mat-datepicker-toggle matIconSuffix [for]="picker" />
-                    <mat-datepicker #picker />
-                  </mat-form-field>
-                  @if (personalForm.get('fechaNacimiento')?.hasError('fechaFutura')) {
-                    <span class="native-error">La fecha no puede ser futura</span>
-                  }
-                  @if (personalForm.get('fechaNacimiento')?.hasError('fechaMuyAntigua')) {
-                    <span class="native-error">Fecha inválida</span>
-                  }
-                </div>
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Fecha de Nacimiento</mat-label>
+                  <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento">
+                  <mat-datepicker-toggle matIconSuffix [for]="picker" />
+                  <mat-datepicker #picker />
+                </mat-form-field>
 
                 <mat-form-field appearance="outline" class="full-width">
                   <mat-label>Teléfono</mat-label>
@@ -103,12 +94,11 @@ import { HttpErrorResponse } from '@angular/common/http';
             </mat-step>
 
             <mat-step [stepControl]="credForm" label="Credenciales">
-              <form [formGroup]="credForm" class="step-form">
-
+              <form [formGroup]="credForm">
                 <mat-form-field appearance="outline" class="full-width">
                   <mat-label>Email</mat-label>
-                  <mat-icon matPrefix>email</mat-icon>
                   <input matInput type="email" formControlName="email">
+                  <mat-icon matPrefix>email</mat-icon>
                   @if (credForm.get('email')?.hasError('email') && credForm.get('email')?.touched) {
                     <mat-error>Email no válido</mat-error>
                   }
@@ -116,7 +106,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 
                 <mat-form-field appearance="outline" class="full-width">
                   <mat-label>Contraseña</mat-label>
-                  <mat-icon matPrefix>lock</mat-icon>
                   <input matInput [type]="hidePass() ? 'password' : 'text'" formControlName="password">
                   <button mat-icon-button matSuffix type="button" (click)="hidePass.set(!hidePass())">
                     <mat-icon>{{ hidePass() ? 'visibility_off' : 'visibility' }}</mat-icon>
@@ -198,10 +187,15 @@ import { HttpErrorResponse } from '@angular/common/http';
       z-index: 1;
       width: 100%;
       max-width: 520px;
+      --mdc-elevated-card-container-color: #ffffff;
+      --mat-card-subtitle-text-color: #555;
+    }
+
+    .auth-card .mat-mdc-card,
+    .auth-card .mdc-card {
+      background: #ffffff !important;
       border-radius: 16px !important;
       box-shadow: 0 24px 48px rgba(0,0,0,0.4) !important;
-      background: rgba(255,255,255,0.97) !important;
-      --mdc-elevated-card-container-color: rgba(255,255,255,0.97);
     }
 
     .auth-logo {
@@ -217,81 +211,9 @@ import { HttpErrorResponse } from '@angular/common/http';
     mat-card-content { padding: 16px 24px; }
     mat-card-actions { padding: 0 24px 16px; }
 
-    .step-form { padding-top: 12px; }
     .full-width { width: 100%; margin-bottom: 8px; }
-
-    .row-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-
-    /* Campos nativos para Nombre y Apellido */
-    .native-field {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      margin-bottom: 12px;
-    }
-
-    .native-label {
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: #444;
-      letter-spacing: 0.01em;
-    }
-
-    .native-input {
-      width: 100%;
-      padding: 12px 14px;
-      border: 1px solid rgba(0, 0, 0, 0.38);
-      border-radius: 4px;
-      font-size: 1rem;
-      font-family: inherit;
-      color: #1a1a2e;
-      background: white;
-      outline: none;
-      box-sizing: border-box;
-      transition: border-color 0.15s, border-width 0.15s;
-    }
-
-    .native-input:focus {
-      border-color: #1a237e;
-      border-width: 2px;
-    }
-
-    .native-input::placeholder {
-      color: #aaa;
-    }
-
-    .native-error {
-      font-size: 0.75rem;
-      color: #c62828;
-    }
-
-    /* Campo fecha — quita el margin interno que genera el mat-form-field */
-    .date-field {
-      margin-bottom: 0 !important;
-    }
-
-    /* Datepicker overlay fondo blanco */
-    ::ng-deep .mat-datepicker-content {
-      background: #ffffff !important;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.2) !important;
-      border-radius: 12px !important;
-    }
-
-    ::ng-deep .mat-calendar {
-      background: #ffffff !important;
-    }
-
-    .step-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 8px;
-      margin-top: 16px;
-    }
+    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 8px; }
+    .step-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
 
     .error-alert {
       display: flex;
@@ -304,6 +226,26 @@ import { HttpErrorResponse } from '@angular/common/http';
       margin-bottom: 12px;
     }
 
+    ::ng-deep .mat-datepicker-content {
+      background: rgba(255,255,255,0.97) !important;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25) !important;
+      border-radius: 12px !important;
+      backdrop-filter: blur(4px) !important;
+    }
+
+    ::ng-deep .mat-calendar {
+      background: transparent !important;
+    }
+
+    ::ng-deep .mat-calendar-body-cell-content {
+      color: #1a1a2e !important;
+    }
+
+    ::ng-deep .mat-calendar-table-header th {
+      color: #3949ab !important;
+      font-weight: 600 !important;
+    }
+
     .auth-link {
       text-align: center;
       width: 100%;
@@ -314,28 +256,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class RegisterComponent {
   hidePass = signal(true);
-  loading  = signal(false);
+  loading = signal(false);
   errorMsg = signal('');
-
-  readonly maxDate = new Date();
-  readonly minDate = new Date(new Date().getFullYear() - 120, 0, 1);
-
-  fechaValidaValidator() {
-    return (control: any) => {
-      if (!control.value) return null;
-      const fecha = new Date(control.value);
-      const hoy   = new Date();
-      const min   = new Date(hoy.getFullYear() - 120, 0, 1);
-      if (fecha > hoy) return { fechaFutura: true };
-      if (fecha < min)  return { fechaMuyAntigua: true };
-      return null;
-    };
-  }
 
   personalForm = this.fb.group({
     nombre:          ['', Validators.required],
     apellido:        ['', Validators.required],
-    fechaNacimiento: [null as Date | null, this.fechaValidaValidator()],
+    fechaNacimiento: [null as Date | null],
     telefono:        [''],
     obraSocial:      ['']
   });
@@ -345,11 +272,7 @@ export class RegisterComponent {
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
-  constructor(
-    private fb: FormBuilder,
-    private auth: AuthService,
-    private router: Router
-  ) {}
+  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
 
   onSubmit(): void {
     if (this.personalForm.invalid || this.credForm.invalid) return;
@@ -360,20 +283,20 @@ export class RegisterComponent {
     const cv = this.credForm.value;
 
     const request = {
-      nombre:          pv.nombre!,
-      apellido:        pv.apellido!,
-      email:           cv.email!,
-      password:        cv.password!,
-      telefono:        pv.telefono   || undefined,
-      obraSocial:      pv.obraSocial || undefined,
+      nombre: pv.nombre!,
+      apellido: pv.apellido!,
+      email: cv.email!,
+      password: cv.password!,
+      telefono: pv.telefono || undefined,
       fechaNacimiento: pv.fechaNacimiento
         ? (pv.fechaNacimiento as Date).toISOString().split('T')[0]
-        : undefined
+        : undefined,
+      obraSocial: pv.obraSocial || undefined
     };
 
     this.auth.register(request).subscribe({
-      next:     () => this.router.navigate(['/dashboard']),
-      error:    (err: HttpErrorResponse) => {
+      next: () => this.router.navigate(['/dashboard']),
+      error: (err: HttpErrorResponse) => {
         this.loading.set(false);
         this.errorMsg.set(err.error?.message ?? 'Error al registrarse');
       },
