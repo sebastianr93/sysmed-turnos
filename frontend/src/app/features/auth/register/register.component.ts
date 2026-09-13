@@ -233,7 +233,6 @@ import { HttpErrorResponse } from '@angular/common/http';
       color: #666;
     }
 
-    /* Datepicker overlay background */
     ::ng-deep .mat-datepicker-content {
       background: #ffffff !important;
       box-shadow: 0 8px 32px rgba(0,0,0,0.2) !important;
@@ -243,23 +242,12 @@ import { HttpErrorResponse } from '@angular/common/http';
     ::ng-deep .mat-calendar {
       background: #ffffff !important;
     }
-
-    ::ng-deep .mat-datepicker-content .mat-calendar-body-cell-content {
-      color: #1a1a2e !important;
-    }
-
-    ::ng-deep .mat-datepicker-content .mat-calendar-arrow {
-      fill: #1a237e !important;
-    }
   `]
 })
 export class RegisterComponent {
   hidePass = signal(true);
-  loading  = signal(false);
+  loading = signal(false);
   errorMsg = signal('');
-
-  readonly maxDate = new Date();
-  readonly minDate = new Date(new Date().getFullYear() - 120, 0, 1);
 
   personalForm = this.fb.group({
     nombre:          ['', Validators.required],
@@ -273,6 +261,21 @@ export class RegisterComponent {
     email:    ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
+
+  readonly maxDate = new Date();
+  readonly minDate = new Date(new Date().getFullYear() - 120, 0, 1);
+
+  fechaValidaValidator() {
+    return (control: any) => {
+      if (!control.value) return null;
+      const fecha = new Date(control.value);
+      const hoy = new Date();
+      const hace120 = new Date(hoy.getFullYear() - 120, 0, 1);
+      if (fecha > hoy) return { fechaFutura: true };
+      if (fecha < hace120) return { fechaMuyAntigua: true };
+      return null;
+    };
+  }
 
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
 
