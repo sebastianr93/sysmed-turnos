@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -17,6 +17,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-register',
   standalone: true,
+  encapsulation: ViewEncapsulation.None,
   imports: [
     CommonModule, ReactiveFormsModule, RouterLink,
     MatCardModule, MatFormFieldModule, MatInputModule,
@@ -186,12 +187,15 @@ import { HttpErrorResponse } from '@angular/common/http';
       z-index: 1;
       width: 100%;
       max-width: 520px;
+      --mdc-elevated-card-container-color: #ffffff;
+      --mat-card-subtitle-text-color: #555;
     }
 
-    ::ng-deep .auth-card .mat-mdc-card {
+    .auth-card .mat-mdc-card,
+    .auth-card .mdc-card {
+      background: #ffffff !important;
       border-radius: 16px !important;
       box-shadow: 0 24px 48px rgba(0,0,0,0.4) !important;
-      background: rgba(255,255,255,0.97) !important;
     }
 
     .auth-logo {

@@ -42,12 +42,14 @@ interface NavItem {
         <mat-divider />
 
         <!-- User info -->
-        <div class="user-info">
+        <div class="user-info" (click)="irAlPerfil()" matTooltip="Ver mi perfil"
+             matTooltipPosition="right" style="cursor:pointer">
           <div class="avatar">{{ initials() }}</div>
           <div class="user-details">
             <span class="user-name">{{ auth.userFullName() }}</span>
             <span class="user-role">{{ rolLabel() }}</span>
           </div>
+          <mat-icon class="perfil-arrow">chevron_right</mat-icon>
         </div>
 
         <mat-divider />
@@ -80,20 +82,12 @@ interface NavItem {
         <!-- Top Toolbar -->
         <mat-toolbar color="primary" class="top-toolbar">
           <span class="toolbar-spacer"></span>
-          <button mat-icon-button [matMenuTriggerFor]="userMenu">
+          <button mat-icon-button (click)="irAlPerfil()" matTooltip="Mi perfil">
             <mat-icon>account_circle</mat-icon>
           </button>
-          <mat-menu #userMenu="matMenu">
-            <div class="menu-user-info">
-              <p class="menu-name">{{ auth.userFullName() }}</p>
-              <p class="menu-email">{{ auth.currentUser()?.email }}</p>
-            </div>
-            <mat-divider />
-            <button mat-menu-item (click)="logout()">
-              <mat-icon>logout</mat-icon>
-              <span>Cerrar sesión</span>
-            </button>
-          </mat-menu>
+          <button mat-icon-button (click)="logout()" matTooltip="Cerrar sesión">
+            <mat-icon>logout</mat-icon>
+          </button>
         </mat-toolbar>
 
         <div class="page-content">
@@ -128,14 +122,20 @@ interface NavItem {
       align-items: center;
       gap: 12px;
       padding: 12px 16px;
+      border-radius: 8px;
+      margin: 4px 8px;
+      transition: background 0.2s;
+      &:hover { background: rgba(255,255,255,0.1); }
       .avatar {
         width: 38px; height: 38px; border-radius: 50%;
         background: #3949ab; color: white;
         display: flex; align-items: center; justify-content: center;
-        font-weight: 600; font-size: 0.9rem;
+        font-weight: 600; font-size: 0.9rem; flex-shrink: 0;
       }
-      .user-name { display: block; font-size: 0.85rem; font-weight: 600; color: white; }
+      .user-details { flex: 1; overflow: hidden; }
+      .user-name { display: block; font-size: 0.85rem; font-weight: 600; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
       .user-role { display: block; font-size: 0.75rem; color: #90caf9; }
+      .perfil-arrow { color: rgba(255,255,255,0.4); font-size: 18px; width: 18px; height: 18px; }
     }
 
     mat-nav-list {
@@ -171,13 +171,6 @@ interface NavItem {
 
     .page-content { padding: 24px; flex: 1; }
 
-    .menu-user-info {
-      padding: 12px 16px;
-      background: rgba(255,255,255,0.98);
-      .menu-name { font-weight: 600; margin: 0 0 4px; }
-      .menu-email { font-size: 0.8rem; color: #666; margin: 0; }
-    }
-
     ::ng-deep .mat-mdc-menu-panel {
       background: #ffffff !important;
       border-radius: 12px !important;
@@ -203,14 +196,14 @@ interface NavItem {
 })
 export class LayoutComponent {
   readonly navItems: NavItem[] = [
-    { label: 'Dashboard',      icon: 'dashboard',        route: '/dashboard',           roles: [Rol.ADMIN, Rol.MEDICO, Rol.PACIENTE] },
-    { label: 'Médicos',        icon: 'medical_services', route: '/medicos',             roles: [Rol.ADMIN, Rol.MEDICO, Rol.PACIENTE] },
-    { label: 'Reservar Turno', icon: 'event_available',  route: '/turnos/reservar',     roles: [Rol.PACIENTE] },
-    { label: 'Mis Turnos',     icon: 'event_note',       route: '/turnos/mis-turnos',   roles: [Rol.PACIENTE] },
-    { label: 'Mi Agenda',      icon: 'calendar_month',   route: '/turnos/agenda',       roles: [Rol.MEDICO] },
-    { label: 'Gestión Médicos',icon: 'manage_accounts',  route: '/admin/medicos',       roles: [Rol.ADMIN] },
-    { label: 'Especialidades', icon: 'category',         route: '/admin/especialidades',roles: [Rol.ADMIN] },
-    { label: 'Todos los Turnos',icon: 'list_alt',        route: '/admin/turnos',        roles: [Rol.ADMIN] },
+    { label: 'Dashboard',        icon: 'dashboard',        route: '/dashboard',            roles: [Rol.ADMIN, Rol.MEDICO, Rol.PACIENTE] },
+    { label: 'Médicos',          icon: 'medical_services', route: '/medicos',              roles: [Rol.ADMIN, Rol.MEDICO, Rol.PACIENTE] },
+    { label: 'Reservar Turno',   icon: 'event_available',  route: '/turnos/reservar',      roles: [Rol.PACIENTE] },
+    { label: 'Mis Turnos',       icon: 'event_note',       route: '/turnos/mis-turnos',    roles: [Rol.PACIENTE] },
+    { label: 'Mi Agenda',        icon: 'calendar_month',   route: '/turnos/agenda',        roles: [Rol.MEDICO] },
+    { label: 'Gestión Médicos',  icon: 'manage_accounts',  route: '/admin/medicos',        roles: [Rol.ADMIN] },
+    { label: 'Especialidades',   icon: 'category',         route: '/admin/especialidades', roles: [Rol.ADMIN] },
+    { label: 'Todos los Turnos', icon: 'list_alt',         route: '/admin/turnos',         roles: [Rol.ADMIN] },
   ];
 
   visibleNavItems = computed(() => {
@@ -231,5 +224,6 @@ export class LayoutComponent {
 
   constructor(public auth: AuthService, private router: Router) {}
 
+  irAlPerfil(): void { this.router.navigate(['/perfil']); }
   logout(): void { this.auth.logout(); }
 }
