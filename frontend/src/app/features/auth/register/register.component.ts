@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -17,6 +17,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-register',
   standalone: true,
+  encapsulation: ViewEncapsulation.None,
   imports: [
     CommonModule, ReactiveFormsModule, RouterLink,
     MatCardModule, MatFormFieldModule, MatInputModule,
@@ -186,10 +187,15 @@ import { HttpErrorResponse } from '@angular/common/http';
       z-index: 1;
       width: 100%;
       max-width: 520px;
+      --mdc-elevated-card-container-color: #ffffff;
+      --mat-card-subtitle-text-color: #555;
+    }
+
+    .auth-card .mat-mdc-card,
+    .auth-card .mdc-card {
+      background: #ffffff !important;
       border-radius: 16px !important;
       box-shadow: 0 24px 48px rgba(0,0,0,0.4) !important;
-      background: rgba(255,255,255,0.97) !important;
-      --mdc-elevated-card-container-color: rgba(255,255,255,0.97);
     }
 
     .auth-logo {
@@ -208,6 +214,39 @@ import { HttpErrorResponse } from '@angular/common/http';
     .full-width { width: 100%; margin-bottom: 8px; }
     .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 8px; }
     .step-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+
+    /* Fix label clipping and input padding inside stepper */
+    mat-form-field {
+      --mat-form-field-container-height: 56px;
+    }
+
+    .mat-mdc-form-field .mat-mdc-floating-label {
+      overflow: visible !important;
+      white-space: nowrap !important;
+    }
+
+    .mat-mdc-text-field-wrapper {
+      padding: 0 12px !important;
+    }
+
+    .mat-mdc-form-field-infix {
+      padding-top: 14px !important;
+      padding-bottom: 6px !important;
+      min-width: 0 !important;
+    }
+
+    .mdc-text-field__input {
+      padding: 0 4px !important;
+    }
+
+    .mdc-floating-label {
+      overflow: visible !important;
+      white-space: nowrap !important;
+    }
+
+    .mat-mdc-form-field-subscript-wrapper {
+      padding: 0 12px !important;
+    }
 
     .error-alert {
       display: flex;
