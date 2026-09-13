@@ -65,6 +65,19 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 auto;
 }
 
+/* Ocultar tooltips nativos del datepicker */
+.mat-calendar-previous-button,
+.mat-calendar-next-button {
+  &[aria-label]::before {
+    content: none !important;
+  }
+}
+
+.mat-calendar-previous-button[title],
+.mat-calendar-next-button[title] {
+  title: '' !important;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
