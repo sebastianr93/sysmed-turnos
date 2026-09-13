@@ -187,15 +187,10 @@ import { HttpErrorResponse } from '@angular/common/http';
       z-index: 1;
       width: 100%;
       max-width: 520px;
-      --mdc-elevated-card-container-color: #ffffff;
-      --mat-card-subtitle-text-color: #555;
-    }
-
-    .auth-card .mat-mdc-card,
-    .auth-card .mdc-card {
-      background: #ffffff !important;
       border-radius: 16px !important;
       box-shadow: 0 24px 48px rgba(0,0,0,0.4) !important;
+      background: rgba(255,255,255,0.97) !important;
+      --mdc-elevated-card-container-color: rgba(255,255,255,0.97);
     }
 
     .auth-logo {

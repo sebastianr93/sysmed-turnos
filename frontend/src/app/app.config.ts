@@ -35,7 +35,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideNativeDateAdapter(),
     { provide: LOCALE_ID, useValue: 'es-AR' },
-    { provide: MAT_DATE_LOCALE, useValue: 'es-AR' },
+    { provide: MAT_DATE_LOCALE, useValue: 'es' },
     { provide: MatPaginatorIntl, useFactory: getPaginatorIntlEs },
   ]
 };
