@@ -46,42 +46,44 @@ import { HttpErrorResponse } from '@angular/common/http';
           <mat-stepper linear #stepper>
 
             <mat-step [stepControl]="personalForm" label="Datos Personales">
-              <form [formGroup]="personalForm">
+              <form [formGroup]="personalForm" class="step-form">
 
                 <div class="row-2">
-                  <mat-form-field appearance="outline" class="field">
-                    <mat-label>Nombre</mat-label>
-                    <input matInput formControlName="nombre">
+                  <div class="input-wrap">
+                    <label class="field-label">Nombre *</label>
+                    <input class="field-input" formControlName="nombre" placeholder="Ingrese su nombre">
                     @if (personalForm.get('nombre')?.invalid && personalForm.get('nombre')?.touched) {
-                      <mat-error>Nombre requerido</mat-error>
+                      <span class="field-error">Nombre requerido</span>
                     }
-                  </mat-form-field>
-                  <mat-form-field appearance="outline" class="field">
-                    <mat-label>Apellido</mat-label>
-                    <input matInput formControlName="apellido">
+                  </div>
+                  <div class="input-wrap">
+                    <label class="field-label">Apellido *</label>
+                    <input class="field-input" formControlName="apellido" placeholder="Ingrese su apellido">
                     @if (personalForm.get('apellido')?.invalid && personalForm.get('apellido')?.touched) {
-                      <mat-error>Apellido requerido</mat-error>
+                      <span class="field-error">Apellido requerido</span>
                     }
+                  </div>
+                </div>
+
+                <div class="input-wrap">
+                  <label class="field-label">Fecha de Nacimiento</label>
+                  <mat-form-field appearance="outline" class="full-width no-margin">
+                    <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker" />
+                    <mat-datepicker #picker />
                   </mat-form-field>
                 </div>
 
-                <mat-form-field appearance="outline" class="full-width field">
-                  <mat-label>Fecha de Nacimiento</mat-label>
-                  <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento">
-                  <mat-datepicker-toggle matIconSuffix [for]="picker" />
-                  <mat-datepicker #picker />
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="full-width field">
+                <mat-form-field appearance="outline" class="full-width">
                   <mat-label>Teléfono</mat-label>
-                  <mat-icon matPrefix>phone</mat-icon>
                   <input matInput formControlName="telefono" placeholder="011-1234-5678">
+                  <mat-icon matPrefix>phone</mat-icon>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="full-width field">
+                <mat-form-field appearance="outline" class="full-width">
                   <mat-label>Obra Social</mat-label>
-                  <mat-icon matPrefix>health_and_safety</mat-icon>
                   <input matInput formControlName="obraSocial" placeholder="OSDE, Swiss Medical, etc.">
+                  <mat-icon matPrefix>health_and_safety</mat-icon>
                 </mat-form-field>
 
                 <div class="step-actions">
@@ -94,9 +96,9 @@ import { HttpErrorResponse } from '@angular/common/http';
             </mat-step>
 
             <mat-step [stepControl]="credForm" label="Credenciales">
-              <form [formGroup]="credForm">
+              <form [formGroup]="credForm" class="step-form">
 
-                <mat-form-field appearance="outline" class="full-width field">
+                <mat-form-field appearance="outline" class="full-width">
                   <mat-label>Email</mat-label>
                   <mat-icon matPrefix>email</mat-icon>
                   <input matInput type="email" formControlName="email">
@@ -105,7 +107,7 @@ import { HttpErrorResponse } from '@angular/common/http';
                   }
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="full-width field">
+                <mat-form-field appearance="outline" class="full-width">
                   <mat-label>Contraseña</mat-label>
                   <mat-icon matPrefix>lock</mat-icon>
                   <input matInput [type]="hidePass() ? 'password' : 'text'" formControlName="password">
@@ -208,14 +210,55 @@ import { HttpErrorResponse } from '@angular/common/http';
     mat-card-content { padding: 16px 24px; }
     mat-card-actions { padding: 0 24px 16px; }
 
-    .full-width { width: 100%; }
-    .field { margin-bottom: 8px; }
+    .step-form { padding-top: 16px; }
+    .full-width { width: 100%; margin-bottom: 8px; }
+    .no-margin { margin-bottom: 0; }
 
     .row-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
-      margin-bottom: 0;
+      margin-bottom: 12px;
+    }
+
+    /* Custom native inputs for Nombre, Apellido - evita problemas del stepper con outline */
+    .input-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+
+    .field-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #555;
+      padding-left: 2px;
+    }
+
+    .field-input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid rgba(0,0,0,0.38);
+      border-radius: 4px;
+      font-size: 1rem;
+      font-family: inherit;
+      color: #1a1a2e;
+      background: white;
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+      &:focus {
+        border-color: #1a237e;
+        border-width: 2px;
+      }
+      &::placeholder { color: #999; }
+    }
+
+    .field-error {
+      font-size: 0.75rem;
+      color: #c62828;
+      padding-left: 2px;
     }
 
     .step-actions {
