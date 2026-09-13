@@ -49,20 +49,20 @@ import { HttpErrorResponse } from '@angular/common/http';
             <mat-step [stepControl]="personalForm" label="Datos Personales">
               <form [formGroup]="personalForm">
                 <div class="row-2">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Nombre</mat-label>
-                    <input matInput formControlName="nombre">
+                  <div class="native-field">
+                    <label class="native-label">Nombre *</label>
+                    <input class="native-input" formControlName="nombre" placeholder="Ingrese su nombre">
                     @if (personalForm.get('nombre')?.invalid && personalForm.get('nombre')?.touched) {
-                      <mat-error>Nombre requerido</mat-error>
+                      <span class="native-error">Nombre requerido</span>
                     }
-                  </mat-form-field>
-                  <mat-form-field appearance="outline">
-                    <mat-label>Apellido</mat-label>
-                    <input matInput formControlName="apellido">
+                  </div>
+                  <div class="native-field">
+                    <label class="native-label">Apellido *</label>
+                    <input class="native-input" formControlName="apellido" placeholder="Ingrese su apellido">
                     @if (personalForm.get('apellido')?.invalid && personalForm.get('apellido')?.touched) {
-                      <mat-error>Apellido requerido</mat-error>
+                      <span class="native-error">Apellido requerido</span>
                     }
-                  </mat-form-field>
+                  </div>
                 </div>
 
                 <mat-form-field appearance="outline" class="full-width">
@@ -187,10 +187,15 @@ import { HttpErrorResponse } from '@angular/common/http';
       z-index: 1;
       width: 100%;
       max-width: 520px;
+      --mdc-elevated-card-container-color: #ffffff;
+      --mat-card-subtitle-text-color: #555;
+    }
+
+    .auth-card .mat-mdc-card,
+    .auth-card .mdc-card {
+      background: #ffffff !important;
       border-radius: 16px !important;
       box-shadow: 0 24px 48px rgba(0,0,0,0.4) !important;
-      background: rgba(255,255,255,0.97) !important;
-      --mdc-elevated-card-container-color: rgba(255,255,255,0.97);
     }
 
     .auth-logo {
